@@ -13,12 +13,49 @@ const App = () => {
     const count = setInterval(() => {
       setCounter(
         (counter) => (
-          counter < 100 ? counter + 14 : clearInterval(count), setCounter(100)
+          counter < 100 ? counter + 14 : clearInterval(count), setCounter(100),
+          console.log(counter),
+          reveal()
         )
       )
     }, 25);
   }, [])
 
+  const reveal = () => {
+    const t1 = gsap.timeline({
+      onComplete: () => {
+        console.log('Completed');
+      },
+    });
+    t1.to(".follow", {
+      width: '100%',
+      duration: 1.2,
+      delay: 0.7,
+      ease: Expo.easeInOut
+    }).to(".hide", {
+      opacity: 0,
+      duration: 0.3
+    }).to(".hide", {
+      display: "none",
+      duration: 0.3
+    }).to(".follow", {
+      height: '100%',
+      duration: 1.2,
+      delay:0.3,
+      ease: Expo.easeInOut
+    }).to('.content',{
+      width:'100%',
+      ease:Expo.easeInOut
+    }).to('.title-line',{
+      display:'block',
+      duration:0.7
+    }).to('.title-line',{
+      opacity:1,
+      duration:0.8,
+      ease:Expo.easeInOut,
+      stagger:1.2
+    })
+  }
 
 
 
@@ -32,7 +69,7 @@ const App = () => {
           <Count className='hide'>{counter}%</Count>
         </Loading>
 
-        <Content>
+        <Content className='content'>
           <p className='title-line'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </p>
@@ -82,7 +119,7 @@ const Follow = styled.div`
     position:absolute;
     background:#f48049;
     height:2px;
-    width: 0;
+    width: 0%;
     left:0;
     z-index:2222;
 `;
@@ -101,8 +138,8 @@ const Count = styled.div`
     color:#fefefe;
     font-weight: 500;
     transform: translateY(-15px);
-
-`; 
+    z-index:5555;
+`;
 const Content = styled.div`
     height:100%;
     width:0%;
@@ -120,9 +157,9 @@ const Content = styled.div`
 
   p{
     text-align:center;
-    font-size:104px;
+    font-size:40px;
     font-weight:500;
-    margin:0;
+    margin:0 20px;
     opacity:0;
     display:none;
   }
